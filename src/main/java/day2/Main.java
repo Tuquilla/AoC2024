@@ -84,7 +84,7 @@ public class Main {
     }
 
     static void task2(List<String[]> data, List<Integer> badLines, int goodLinesTask1) {
-        int goodLines = 0;
+        int goodLinesTask2 = 0;
         for (Integer index : badLines) {
             String[] line = data.get(index);
             String[] lineMinusOne = new String[line.length-1];
@@ -106,14 +106,12 @@ public class Main {
                 oneLineInput.add(lineMinusOne);
                 List<Integer> x = task1(oneLineInput);
                 if (x.isEmpty()) {
-                    goodLines++;
+                    goodLinesTask2++;
                     break;
                 }
             }
         }
-        System.out.println("Amount of good lines task 2: " + goodLines);
-        System.out.println("Total amount of good lines: " + (goodLines + goodLinesTask1));
+        System.out.println("Amount of good lines task 2: " + goodLinesTask2);
+        System.out.println("Total amount of good lines: " + (goodLinesTask2 + goodLinesTask1));
     }
-
-
 }
