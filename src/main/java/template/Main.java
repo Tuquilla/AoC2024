@@ -9,8 +9,7 @@ public class Main {
 
         InputStream inputStream = Main.class.getResourceAsStream("/day../test.txt");
 
-        BufferedReader br
-                = new BufferedReader(new InputStreamReader(inputStream));
+        BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
 
 
         String st;
