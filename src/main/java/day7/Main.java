@@ -20,6 +20,7 @@ public class Main {
         String st;
         List<Long> solution = new ArrayList<>();
         List<ArrayList<Long>> values = new ArrayList<>();
+        List<ArrayList<Long>> values2 = new ArrayList<>();
 
 
         while ((st = br.readLine()) != null) {
@@ -27,14 +28,16 @@ public class Main {
             solution.add(Long.parseLong(token[0]));
             String[] inputValues = token[1].split(" ");
             ArrayList<Long> rows = new ArrayList<>();
-            for (int i = 0; i < inputValues.length; i++) {
-                rows.add(Long.parseLong(inputValues[i]));
+            for (String inputValue : inputValues) {
+                rows.add(Long.parseLong(inputValue));
             }
+            ArrayList<Long> rows2 = new ArrayList<>(rows);
             values.add(rows);
+            values2.add(rows2);
         }
 
         task1(values, solution);
-        task2();
+        task2(values2, solution);
 
     }
 
@@ -43,18 +46,26 @@ public class Main {
         for (int i = 0; i < solutions.size(); i++) {
             Long firstValue = values.get(i).getFirst();
             values.get(i).removeFirst();
-            if (calibration(BigInteger.valueOf(firstValue), BigInteger.valueOf(solutions.get(i)), values.get(i))) {
+            if (calibration(BigInteger.valueOf(firstValue), BigInteger.valueOf(solutions.get(i)), values.get(i), "task1")) {
                 result = result.add(BigInteger.valueOf(solutions.get(i)));
             }
         }
         System.out.println("Result first task 1: " + result);
     }
 
-    static void task2() {
-
+    static void task2(List<ArrayList<Long>> values, List<Long> solutions) {
+        BigInteger result = BigInteger.valueOf(0);
+        for (int i = 0; i < solutions.size(); i++) {
+            Long firstValue = values.get(i).getFirst();
+            values.get(i).removeFirst();
+            if (calibration(BigInteger.valueOf(firstValue), BigInteger.valueOf(solutions.get(i)), values.get(i), "task2")) {
+                result = result.add(BigInteger.valueOf(solutions.get(i)));
+            }
+        }
+        System.out.println("Result first task 2: " + result);
     }
 
-    static boolean calibration(BigInteger start, BigInteger result, ArrayList<Long> values) {
+    static boolean calibration(BigInteger start, BigInteger result, ArrayList<Long> values, String task) {
         if (Objects.equals(start, result) && values.isEmpty()) {
             return true;
         }
@@ -65,20 +76,22 @@ public class Main {
         Long element = values.getFirst();
         values.removeFirst();
         BigInteger mult = start.multiply(BigInteger.valueOf(element));
-        if (calibration(mult, result, values)) {
+        if (calibration(mult, result, values, task)) {
             values.addFirst(element);
             return true;
         }
         BigInteger add = start.add(BigInteger.valueOf(element));
-        if (calibration(add, result, values)) {
+        if (calibration(add, result, values, task)) {
             values.addFirst(element);
             return true;
         }
-        String concatString = start.toString().concat(BigInteger.valueOf(element).toString());
-        BigInteger concat = new BigInteger(concatString);
-        if (calibration(concat, result, values)) {
-            values.addFirst(element);
-            return true;
+        if (task.equals("task2")) {
+            String concatString = start.toString().concat(BigInteger.valueOf(element).toString());
+            BigInteger concat = new BigInteger(concatString);
+            if (calibration(concat, result, values, task)) {
+                values.addFirst(element);
+                return true;
+            }
         }
 
         values.addFirst(element);
