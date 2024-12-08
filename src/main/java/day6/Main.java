@@ -144,7 +144,7 @@ public class Main {
             }
             // If a guard is run through a point multiple time, break
             for (ArrayList<Integer> rows : countMap) {
-                if (rows.parallelStream().max(Integer::compare).get() >= 10) {
+                if (rows.parallelStream().max(Integer::compare).get() >= 5) {
                     map.get(startHeight).set(start, '.');
                     return true;
                 }
